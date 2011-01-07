@@ -31,4 +31,3 @@ module Helpers
   end
 end
 end
-#Haml::Helpers.module_eval('include LogStats::Helpers')
