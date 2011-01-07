@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Log Stats @ 2011-01-18 07:09</title>
+    <style>
+      body {
+        font-size: 62.5%;
+        font-family: Helvetica, sans-serif;
+        background: #454342;
+        color: white; }
+      
+      #logstats {
+        width: 400px;
+        height: 241px;
+        background: #333335;
+        border: 1px solid #272b3b;
+        text-align: center; }
+        #logstats h1 {
+          font-size: 120%;
+          text-decoration: underline;
+          font-variant: small-caps;
+          text-align: center;
+          margin: 0 0 10px 0;
+          padding: 0; }
+        #logstats ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          text-align: left; }
+          #logstats ul li {
+            margin: 0;
+            padding: 0; }
+        #logstats .duration {
+          font-size: 200%;
+          color: #cacaca; }
+          #logstats .duration span {
+            color: white; }
+        #logstats .remaining, #logstats .average {
+          margin-top: 5px; }
+        #logstats .recent, #logstats .history {
+          width: 200px;
+          float: left; }
+        #logstats .recent .current, #logstats .recent .today {
+          padding: 5px; }
+        #logstats .recent .current {
+          height: 50px;
+          border-bottom: 1px solid #272b3b; }
+        #logstats .history .today, #logstats .history .week, #logstats .history .month {
+          height: 70px;
+          padding: 5px;
+          border-left: 1px solid #272b3b; }
+        #logstats .history .today, #logstats .history .week {
+          border-bottom: 1px solid #272b3b; }
+    </style>
+  </head>
+  <body>
+    <div id='logstats'>
+      <div class='recent'>
+        <div class='current'>
+          <h1>Current</h1>
+          <span class='duration'>
+            <span class='minute'>45</span>
+            min
+          </span>
+        </div>
+        <div class='today'>
+          <h1>Projects</h1>
+          <ul class='projects'>
+            <li>
+              <span class='project'>MB1</span>
+              <span class='duration'>
+                <span class='hour'>1</span>
+                hr
+                <span class='minute'>57</span>
+                min
+              </span>
+            </li>
+            <li>
+              <span class='project'>MY1</span>
+              <span class='duration'>
+                <span class='hour'>2</span>
+                hr
+                <span class='minute'>30</span>
+                min
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class='history'>
+        <div class='today'>
+          <h1>Today</h1>
+          <span class='duration'>
+            <span class='hour'>5</span>
+            hr
+            <span class='minute'>57</span>
+            min
+          </span>
+          <div class='remaining'>
+            (target met!)
+          </div>
+        </div>
+        <div class='week'>
+          <h1>Week</h1>
+          <span class='duration'>
+            <span class='hour'>5</span>
+            hr
+            <span class='minute'>57</span>
+            min
+          </span>
+          <div class='remaining'>
+            (20 hr 3 min remaining)
+          </div>
+        </div>
+        <div class='month'>
+          <h1>Month</h1>
+          <span class='duration'>
+            <span class='hour'>35</span>
+            hr
+            <span class='minute'>57</span>
+            min
+          </span>
+          <div class='average'>
+            (6 hr 12 min average)
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

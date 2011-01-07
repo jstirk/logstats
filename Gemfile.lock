@@ -1,0 +1,14 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    haml (3.0.25)
+    ruby-fsevent (0.2.1)
+    watchr (0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  haml
+  ruby-fsevent
+  watchr

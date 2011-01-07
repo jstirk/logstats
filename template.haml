@@ -1,0 +1,122 @@
+!!!
+%html
+  %head
+    %title Log Stats @ #{Time.now.strftime('%a, %e %b %Y %H:%M')}
+    %style
+      :sass
+        $background_color_light: #454342
+        $background_color_dark: #333335
+        $text_color: white 
+        $text_faded_color: #cacaca
+        $link_color: #a9c743
+        $border_color: #272b3b
+        $success_color: #a9c743
+        $success_faded_color: #7D9231
+      
+        body
+          :font-size 62.5%
+          :font-family Helvetica, sans-serif
+          :background $background_color_light
+          :color $text_color
+
+        #logstats
+          :width 400px
+          :height 241px
+          :background $background_color_dark
+          :border 1px solid $border_color
+          :text-align center
+
+          h1
+            :font-size 120%
+            :text-decoration underline
+            :font-variant small-caps
+            :text-align center
+            :margin 0
+            :padding 0
+
+          ul
+            :list-style-type none
+            :margin 0
+            :padding 0
+            :text-align left
+
+            li
+              :margin 0
+              :padding 0
+
+          .duration
+            :font-size 200%
+            :color $text_faded_color
+            :line-height 40px
+
+            span
+              :color $text_color
+
+          .met
+            :color $success_color
+
+            .duration
+              :color $success_faded_color
+
+              span
+                :color $success_color
+
+          //.remaining, .average
+          
+          .recent, .history
+            :width 200px
+            :float left
+
+          .recent
+            .current, .today
+              :padding 5px
+
+            .current
+              :height 50px
+              :border-bottom 1px solid $border-color
+
+            .today ul
+              .duration
+                :line-height 30px
+
+          .history
+            .today, .week, .month
+              :height 70px
+              :padding 5px
+              :border-left 1px solid $border_color
+
+            .today, .week
+              :border-bottom 1px solid $border-color
+              
+
+  %body
+    #logstats
+      .recent
+        .current
+          %h1 Current Task
+          - if current then
+            = duration_tag(current)
+          - else
+            N/A
+        .today
+          %h1 Projects
+          %ul.projects
+            - today[:projects].each do |project, time|
+              %li
+                %span.project= project
+                = duration_tag(time)
+      .history
+        .today{ :class => (today[:remaining].nil? ? 'met' : nil )}
+          %h1 Today
+          = duration_tag(today[:total])
+          = remaining_tag(today[:remaining])
+
+        .week{ :class => (week[:remaining].nil? ? 'met' : nil )}
+          %h1 Week
+          = duration_tag(week[:total])
+          = remaining_tag(week[:remaining])
+        .month
+          %h1 Month
+          = duration_tag(month[:total])
+          .average
+            (#{time_to_html(month[:average])} average)
