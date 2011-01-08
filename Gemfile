@@ -1,9 +1,4 @@
-source :rubygems
+source "http://rubygems.org"
 
-gem "haml"
-gem "tail_from_sentinel", :git => 'git://github.com/jstirk/tail_from_sentinel.git'
-
-group :development do
-	gem "watchr"
-	gem "ruby-fsevent"
-end
+# Specify your gem's dependencies in logstats.gemspec
+gemspec

@@ -1,4 +1,5 @@
-examples/*.html
-logstats.html
-watchr/
+pkg/*
+*.gem
+.bundle
 scratch/
+logstats.html
