@@ -2,4 +2,7 @@ pkg/*
 *.gem
 .bundle
 scratch/
+examples/
+watchr/
 logstats.html
+.rvmrc
