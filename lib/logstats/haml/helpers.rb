@@ -9,6 +9,9 @@ module Helpers
     o=[]
     o << "<span class=\"hour\">#{hrs}</span> hr" if hrs.to_i > 0
     o << "<span class=\"minute\">#{min}</span> min" if min.to_i > 0
+    if o.size == 0 then
+      o << "<span class=\"none\">NONE :(</span>"
+    end
     o.join(' ')
   end
 
@@ -19,8 +22,27 @@ module Helpers
     "<span class=\"#{options[:class]}\">#{self.time_to_html(seconds)}</span>"
   end
 
+  def self.threshold_met?(seconds, period)
+    (self.threshold_for_period(period) - seconds) < 0
+  end
+
   def self.remaining_tag(seconds_so_far, period)
-    seconds_required=case period
+    seconds=self.threshold_for_period(period) - seconds_so_far
+
+    css_class=[ 'remaining ']
+    if seconds < 0 then
+      content=self.time_to_html(seconds.abs) + ' over!'
+      css_class << 'met'
+    else
+      content=self.time_to_html(seconds) + ' remaining'
+    end
+    "<div class=\"#{css_class.join(' ')}\">(#{content})</div>"
+  end
+
+
+  # Returns the threshold number of seconds that need to be attained each period
+  def self.threshold_for_period(period)
+    case period
       when :day
         # 5 hrs per day
         5 * 3600
@@ -30,17 +52,6 @@ module Helpers
       else
         raise "Unknown period: #{period}"
     end
-
-    seconds=seconds_required - seconds_so_far
-
-    css_class=[ 'remaining ']
-    if seconds.nil? || seconds < 0 then
-      content=self.time_to_html(seconds.abs) + ' over!'
-      css_class << 'met'
-    else
-      content=self.time_to_html(seconds) + ' remaining'
-    end
-    "<div class=\"#{css_class.join(' ')}\">(#{content})</div>"
   end
 end
 end

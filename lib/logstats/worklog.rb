@@ -55,19 +55,21 @@ class WorkLog < TailFromSentinel::Base
         when DATE_SENTINEL_REGEX
           # It's a date marker - set current_time
           current_time=Time.parse(WorkLog.parse_sentinel($1,$2,$3).reverse.join('-'))
-          days[current_time]={ :total => 0, :projects => {} }
+          days[current_time]={ :total => 0, :billable => 0, :projects => {} }
 
         when WORKLOG_RECORD_REGEX
           # It's a worklog record - parse it, and add it to the relevant buckets
           duration, project=parse_worklog_record(current_time, $1, $2, $3, $4, $5)
 
           days[current_time][:total] += duration
+          days[current_time][:billable] += duration if project
           days[current_time][:projects][project] ||= 0
           days[current_time][:projects][project] += duration
 
         when OPEN_WORKLOG_RECORD_REGEX
           duration, project=parse_worklog_record(current_time, $1, $2, $3)
-          days[:current]=duration
+          days[:current]={ :total => duration, :billable => 0 }
+          days[:current][:billable] = duration if project
           
         when /^\s*$/
           # Blank line - ignore
@@ -92,7 +94,7 @@ class WorkLog < TailFromSentinel::Base
     if msg.match(/^([A-Z0-9]{3})/) then
       project=$1
     else
-      project='MISC'
+      project=false
     end
     [ duration, project ]
   end
@@ -100,14 +102,19 @@ class WorkLog < TailFromSentinel::Base
   def compile_day_data(days)
     stats={ :current => days[:current],
             :today  => { :total => 0,
+                         :billable => 0,
                          :projects => { }
                        },
             :week   => { :total => 0,
+                         :billable => 0,
                          :average => 0,
+                         :average_billable => 0,
                          :projects => { }
                        },
             :month  => { :total => 0,
+                         :billable => 0,
                          :average => 0,
+                         :average_billable => 0,
                          :days_logged => 0,
                          :projects => { }
                        }
@@ -124,25 +131,40 @@ class WorkLog < TailFromSentinel::Base
 
       if time_to_date(time).cweek == today.cweek then
         stats[:week][:total] += data[:total]
+        stats[:week][:billable] += data[:billable]
         stats[:week][:average] = (stats[:week][:total] / time_to_date(time).wday.to_f)
+        stats[:week][:average_billable] = (stats[:week][:billable] / time_to_date(time).wday.to_f)
         data[:projects].each do |project, duration|
-          stats[:week][:projects][project] ||= 0
-          stats[:week][:projects][project] += duration
+          if project then
+            stats[:week][:projects][project] ||= 0
+            stats[:week][:projects][project] += duration
+          end
         end
       end
 
       # Everything is included in this month
       stats[:month][:total] += data[:total]
+      stats[:month][:billable] += data[:billable]
       stats[:month][:days_logged] += 1
       stats[:month][:average] = (stats[:month][:total] / stats[:month][:days_logged])
+      stats[:month][:average_billable] = (stats[:month][:billable] / stats[:month][:days_logged])
       data[:projects].each do |project, duration|
-        stats[:month][:projects][project] ||= 0
-        stats[:month][:projects][project] += duration
+        if project then
+          stats[:month][:projects][project] ||= 0
+          stats[:month][:projects][project] += duration
+        end
       end
     end
 
-    stats[:today][:total] += days[:current] unless days[:current].nil?
-    #stats[:today][:projects]['WIP'] = days[:current]
+    # Now add in the current task, if it is present
+    if days[:current] then
+      stats[:today][:total] += days[:current][:total]
+      stats[:today][:billable] += days[:current][:billable]
+      stats[:week][:total] += days[:current][:total]
+      stats[:week][:billable] += days[:current][:billable]
+      stats[:month][:total] += days[:current][:total]
+      stats[:month][:billable] += days[:current][:billable]
+    end
 
     return stats
   end

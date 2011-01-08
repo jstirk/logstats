@@ -96,7 +96,7 @@
         .current
           %h1 Current Task
           - if current then
-            = duration_tag(current)
+            = duration_tag(current[:total])
           - else
             N/A
         .today
@@ -104,20 +104,20 @@
           %ul.projects
             - today[:projects].each do |project, time|
               %li
-                %span.project= project
+                %span.project= project || "Misc."
                 = duration_tag(time)
       .history
-        .today{ :class => (today[:remaining].nil? ? 'met' : nil )}
+        .today{ :class => (threshold_met?(today[:billable], :day) ? 'met' : nil )}
           %h1 Today
-          = duration_tag(today[:total])
-          = remaining_tag(today[:total], :day)
+          = duration_tag(today[:billable])
+          = remaining_tag(today[:billable], :day)
 
-        .week{ :class => (week[:remaining].nil? ? 'met' : nil )}
+        .week{ :class => (threshold_met?(week[:billable], :week) ? 'met' : nil )}
           %h1 Week
-          = duration_tag(week[:total])
-          = remaining_tag(week[:total], :week)
+          = duration_tag(week[:billable])
+          = remaining_tag(week[:billable], :week)
         .month
           %h1 Month
-          = duration_tag(month[:total])
+          = duration_tag(month[:billable])
           .average
             (#{time_to_html(month[:average])} average)
