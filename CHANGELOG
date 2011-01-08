@@ -1,0 +1,4 @@
+0.0.2 (08Dec2011)
+  BUGFIX: Failed to calculate today's time when there wasn't an open task
+0.0.1 (08Dec2011)
+  Initial Release

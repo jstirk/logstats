@@ -141,7 +141,7 @@ class WorkLog < TailFromSentinel::Base
       end
     end
 
-    stats[:today][:total] += days[:current]
+    stats[:today][:total] += days[:current] unless days[:current].nil?
     #stats[:today][:projects]['WIP'] = days[:current]
 
     return stats
