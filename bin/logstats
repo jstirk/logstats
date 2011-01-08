@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'logstats'
+
+ls=LogStats.new('/Users/j_stirk/worklog-active.txt', '/Users/j_stirk/worklog-status.html')
+ls.generate!

@@ -109,12 +109,12 @@
         .today{ :class => (today[:remaining].nil? ? 'met' : nil )}
           %h1 Today
           = duration_tag(today[:total])
-          = remaining_tag(today[:remaining])
+          = remaining_tag(today[:total], :day)
 
         .week{ :class => (week[:remaining].nil? ? 'met' : nil )}
           %h1 Week
           = duration_tag(week[:total])
-          = remaining_tag(week[:remaining])
+          = remaining_tag(week[:total], :week)
         .month
           %h1 Month
           = duration_tag(month[:total])
