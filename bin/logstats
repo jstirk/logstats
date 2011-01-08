@@ -2,5 +2,5 @@
 
 require 'logstats'
 
-ls=LogStats.new('/Users/j_stirk/worklog-active.txt', '/Users/j_stirk/worklog-status.html')
+ls=LogStats::Base.new(ARGV[0], ARGV[1])
 ls.generate!

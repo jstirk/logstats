@@ -1,3 +1,4 @@
+require 'haml'
 require 'logstats/haml/helpers'
 require 'logstats/worklog'
 module LogStats
@@ -13,7 +14,7 @@ class Base
   def generate!
     # Calculate the stats from the file
     locals={}
-    @worklog.stats.keys.each { |key| locals[key]=data[key] }
+    @worklog.stats.each { |key, data| locals[key]=data }
     process_haml(locals)
     return true
   end

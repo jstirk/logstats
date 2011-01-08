@@ -1,1 +1,64 @@
+LogStats
+========
+
+Generates a simple HTML file based upon my custom timesheet format.
+
+I can then embed this on my OSX Dashboard to be able to see how I'm
+progressing throughout the day/week/month.
+
+It's probably not so useful to you, unless you happen to like my
+worklog format.
+
+Requirements
+============
+ * HAML
+ * tail_from_sentinel
+
+Usage
+=====
+
+  logstats INPUTFILE.txt OUTPUTFILE.html
+
+
+Worklog Format
+==============
+
+I use a text based worklog format for all my timekeeping.
+
+This is a simple text file that sits in my Dropbox, and it symlinked to
+my home. I keep it open in an editor all day so as that I can quickly jot
+down when my task changes.
+
+It works great for unexpected interruptions, as I can quickly update it
+when I am back, or even while I am on the phone (only need to type the time
+I answer the call).
+
+The format looks like this :
+
+  01Jan2011
+  0900 ABC 1234567 1012
+  1015 ABC 9876543 1100
+  1100 ABC Deploy 1110
+
+  03Jan
+  1200 XY1 2345678 1230
+
+Each day has a simple header in DDMMMYYYY format, where YYYY is
+optional where it is the same as the record before.
+
+Within the day, each line follows a simple format :
+ * the start time (in 24hr)
+
+ * a message, which starts with a 3-character project code (if billable).
+   I usually follow this with a Pivotal Tracker Story ID, or a note
+   about what I was doing.
+   If it's not billable work, I might use this space to log an
+   unexpected call for instance.
+   This field is freeform, with the project picked up if it's there.
+
+ * the end time (in 24hr). It's fine for this to be in the next day.
+   Eg: 2330 ABC allnighter 0230
+
 TODO
+====
+ * Tests!

@@ -1,7 +1,9 @@
-require 'lib/tail_from_sentinel'
+require 'tail_from_sentinel'
 require 'time'
+require 'date'
 
 # Parses my own WorkLog file format and extracts the stats for the past month
+module LogStats
 class WorkLog < TailFromSentinel::Base
   DATE_SENTINEL_REGEX=/(\d+)([A-Z]+)(\d{4})?$/i
   WORKLOG_RECORD_REGEX=/(\d{2})(\d{2}) (.*) (\d{2})(\d{2})$/i
@@ -36,7 +38,7 @@ class WorkLog < TailFromSentinel::Base
   def initialize(filename)
     @last_seen_year=nil
     @stas=nil
-    super(File.open('/Users/j_stirk/worklog-active.txt', 'r'), &DATE_SENTINEL_PROC)
+    super(File.open(filename, 'r'), &DATE_SENTINEL_PROC)
   end
 
   # TODO: Document this
@@ -120,9 +122,9 @@ class WorkLog < TailFromSentinel::Base
       # It's data for today - use it
       stats[:today]=data if time.day == now.day
 
-      if time.to_date.cweek == today.cweek then
+      if time_to_date(time).cweek == today.cweek then
         stats[:week][:total] += data[:total]
-        stats[:week][:average] = (stats[:week][:total] / time.to_date.wday.to_f)
+        stats[:week][:average] = (stats[:week][:total] / time_to_date(time).wday.to_f)
         data[:projects].each do |project, duration|
           stats[:week][:projects][project] ||= 0
           stats[:week][:projects][project] += duration
@@ -144,10 +146,9 @@ class WorkLog < TailFromSentinel::Base
 
     return stats
   end
-end
 
-class Time
-  def to_date
-    Date.new(self.year, self.month, self.day)
+  def time_to_date(time)
+    Date.new(time.year, time.month, time.day)
   end
+end
 end
