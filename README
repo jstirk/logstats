@@ -9,6 +9,9 @@ progressing throughout the day/week/month.
 It's probably not so useful to you, unless you happen to like my
 worklog format.
 
+I run the script every few minutes with cron so as that the HTML stays
+up-to-date.
+
 Requirements
 ============
  * HAML
