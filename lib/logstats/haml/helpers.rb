@@ -36,9 +36,22 @@ module Helpers
     else
       content=self.time_to_html(seconds) + ' remaining'
     end
-    "<div class=\"#{css_class.join(' ')}\">(#{content})</div>"
+    "<div class=\"#{css_class.join(' ')}\">#{content}</div>"
   end
 
+  # Outputs some basic productivity statistics
+  def self.productivity_tag(data)
+    o=[]
+    css_classes=[ 'productivity' ]
+
+    if data[:total] > 0 then
+      o << self.time_to_html(data[:total]) if data[:total] > 0
+      percent=((data[:billable] / data[:total]) * 100).ceil
+      o << "#{percent}% billable"
+    end
+
+    "<div class=\"#{css_classes.join(' ')}\">#{o.join(' | ')}</div>"
+  end
 
   # Returns the threshold number of seconds that need to be attained each period
   def self.threshold_for_period(period)

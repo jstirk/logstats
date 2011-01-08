@@ -46,15 +46,21 @@
               :padding 0
 
           .duration
-            :font-size 200%
             :color $text_faded_color
             :line-height 40px
+            :font-variant small-caps
+            :font-size 150%
 
             span
               :color $text_color
+              // 1.5x bigger than the HR/MIN
+              :font-size 150%
 
           .met
             :color $success_color
+
+            .remaining
+              :color $success_color
 
             .duration
               :color $success_faded_color
@@ -62,7 +68,8 @@
               span
                 :color $success_color
 
-          //.remaining, .average
+          .remaining
+            :color red
           
           .recent, .history
             :width 200px
@@ -86,6 +93,9 @@
               :padding 5px
               :border-left 1px solid $border_color
 
+              .duration
+                :line-height 35px
+
             .today, .week
               :border-bottom 1px solid $border-color
               
@@ -100,7 +110,7 @@
           - else
             N/A
         .today
-          %h1 Projects
+          %h1 Today's Projects
           %ul.projects
             - today[:projects].each do |project, time|
               %li
@@ -111,13 +121,16 @@
           %h1 Today
           = duration_tag(today[:billable])
           = remaining_tag(today[:billable], :day)
+          = productivity_tag(today)
 
         .week{ :class => (threshold_met?(week[:billable], :week) ? 'met' : nil )}
           %h1 Week
           = duration_tag(week[:billable])
           = remaining_tag(week[:billable], :week)
+          = productivity_tag(week)
         .month
           %h1 Month
           = duration_tag(month[:billable])
           .average
-            (#{time_to_html(month[:average])} average)
+            #{time_to_html(month[:average])} / day avg.
+          = productivity_tag(month)
