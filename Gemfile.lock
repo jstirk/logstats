@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/jstirk/tail_from_sentinel.git
+  revision: def3003aa61a46dfd239cad938700d8ad26c2988
+  specs:
+    tail_from_sentinel (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -11,4 +17,5 @@ PLATFORMS
 DEPENDENCIES
   haml
   ruby-fsevent
+  tail_from_sentinel!
   watchr
