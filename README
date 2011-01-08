@@ -9,8 +9,11 @@ progressing throughout the day/week/month.
 It's probably not so useful to you, unless you happen to like my
 worklog format.
 
-I run the script every few minutes with cron so as that the HTML stays
-up-to-date.
+I run the script every 5 minutes with cron so as that the HTML stays
+up-to-date. The page is set to auto-refresh every 2.5 minutes.
+
+The colours change when I have done at least 5 hours of work per day,
+and 25 hours per week.
 
 Requirements
 ============
@@ -65,3 +68,4 @@ Within the day, each line follows a simple format :
 TODO
 ====
  * Tests!
+ * Make it more customizable. Not everyone has the same thresholds that I keep.
