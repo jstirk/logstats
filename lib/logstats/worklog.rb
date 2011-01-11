@@ -91,7 +91,7 @@ class WorkLog < TailFromSentinel::Base
     end
     duration=end_time - start_time
 
-    if msg.match(/^([A-Z0-9]{3})/) then
+    if msg.match(/^([A-Z0-9]{2,3}) /i) then
       project=$1
     else
       project=false

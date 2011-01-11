@@ -1,3 +1,5 @@
+PENDING (0.0.4)
+  Project code is now 2 or 3 characters, any case, and must be followed by a space.
 0.0.3 (08Dec2011)
   BUGFIX: Update to correctly distinguish between billable (with project code) and non-billable (without project code).
   Added basic "% billable" statistic, and total time for the period. Default display is now billable.
